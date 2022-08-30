@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+
+</head>
+<body>
+
+    <a-scene background="color: #000000" shadow="autoUpdate: true; type:pcfsoft" renderer="colorManagement: true;">
+        <a-assets>
+            <a-asset-item id="moon" src='assets/moon.glb'></a-asset-item>
+            <a-asset-item id="csm" src="assets/apollo_interior-medium_resolution.glb"></a-asset-item>
+            <a-asset-item id="cassette_player" src="assets/stylized_cassette_player.glb"></a-asset-item>
+            <img id="space" src="assets/space.png">
+            <audio id="nasa_radio" src="assets/Apollo-11_Day-03-Highlights.mp3" preload="auto"></audio>
+            <audio id="song_1" src="assets/Fake_It_Til_You_Fake_ It.mp3" preload="auto"></audio>
+            <audio id="song_2" src="assets/Hold_on_a_Sec.mp3" preload="auto"></audio>
+        </a-assets>
+        <a-sky src="#space" radius="5000"></a-sky>
+
+        <!-- global light -->
+        <a-light id="sun"
+            type="directional"
+            intensity="1.5"
+            castShadow="true"
+            position="1 1 1">
+        </a-light>
+
+        <!-- light inside the csm -->
+        <a-light id="csm_ambiant"
+            type="point"
+            target="#csm_gltf">
+        </a-light>
+
+        <!-- import moon model -->
+        <a-entity id="moon_gltf" 
+            gltf-model="#moon"
+            scale="1 1 1"
+            animation="property: rotation; to: 0 360 0; loop: true; dur: 2332800000; easing: linear">
+        </a-entity>
+       
+        <!-- creates the orbit for the csm -->
+        <a-sphere id="scm_orbit" 
+            position="0 0 0"
+            rotation="0 55 0" 
+            radius="880" 
+            material="visible: false" 
+            animation="property: rotation; to: 0 415 0; loop: true; dur: 9682991; easing: easeInOutSine">
+
+            <!-- import csm model -->
+            <a-entity id="csm_gltf"
+                gltf-model="#csm" 
+                position="0 0 880" 
+                rotation="0 180 0" 
+                scale="0.0005 0.0005 0.0005"
+                >
+                
+                <a-entity id="cassette_player_gltf" 
+                    gltf-model = '#cassette_player'
+                    position="70 4 -45" 
+                    rotation="12 60 0"
+                    scale="0.015 0.015 0.015"
+                    animation="property: rotation; to: 12 60 360; loop: true; dur: 80000; easing: linear;">
+                    
+                    <a-entity id="radio_sound"
+                        sound="src: #song_1; autoplay:false; loop: true; maxDistance: 100">
+                    </a-entity>
+                </a-entity>
+
+                <a-camera 
+                camera="far:  1000000;  fov:  75" 
+                position="85 0 -25"
+                look-controls=""
+                >
+                    <a-entity id="nasa_sound" 
+                        sound="src: #nasa_radio; autoplay: true;">
+                    </a-entity>
+                    
+                    <!--TEST FUSE FOR MOBILE-->
+                    <a-cursor id="my_cursor"
+                        color="#E9E9E9"
+                        material="opacity: 0.7"
+                        geometry="radiusOuter: 0.01; radiusInner: 0.005"
+                        >
+                    </a-cursor>
+            </a-entity>
+        </a-sphere>
+    </a-scene>
+
+    
+    <script>
+        let cassette_player = document.getElementById('cassette_player_gltf');
+        let nasa_radio_sound = document.getElementById('nasa_sound');
+        let radio_sound = document.getElementById('radio_sound');
+
+        function cursor_color(elem) {
+
+            let cursor = document.getElementById('my_cursor');
+
+            elem.addEventListener('mouseenter', function(){
+                cursor.setAttribute('color', '#e06666');
+            });
+            
+            elem.addEventListener('mouseleave', function(){
+                cursor.setAttribute('color', '#E9E9E9');
+            });
+        }
+
+        cursor_color(cassette_player);
+
+        let click_count = 0;
+        cassette_player.addEventListener('click', function(){
+            
+            if (click_count%2 == 0) {
+
+                nasa_radio_sound.components.sound.pauseSound();
+                radio_sound.components.sound.playSound();
+
+            } else {
+
+                nasa_radio_sound.components.sound.playSound();
+                radio_sound.components.sound.pauseSound();
+            
+            }
+            click_count ++
+
+            })
+        
+    </script>
+</body>
+</html>
