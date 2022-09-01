@@ -17,7 +17,7 @@
             <a-asset-item id="csm" src="assets/apollo_interior-medium_resolution.glb"></a-asset-item>
             <a-asset-item id="cassette_player" src="assets/stylized_cassette_player.glb"></a-asset-item>
             <img id="space" src="assets/space.png">
-            <img id="moon_texture" src="assets/lroc_color_poles_16k.jpg">
+            <img id="moon_texture" src="assets/lroc_color_poles_8k.jpg">
             <img id="moon_disp" src="assets/ldem_16.png">
             <audio id="nasa_radio" src="assets/Apollo-11_Day-03-Highlights.mp3" preload="auto"></audio>
             <audio id="song_1" src="assets/Fake_It_Til_You_Fake_ It.mp3" preload="auto"></audio>
@@ -51,11 +51,9 @@
 
         <a-sphere id="moon"
             src="#moon_texture"
-            geometry="primitive:  sphere;  radius:  868.5;  segmentsHeight:  18;  segmentsWidth:  36"
-            scale="1 1 1"
-            displacement-map="#moon_disp"
-            displacement-bias="0"
-            displacement-scale="3"
+            geometry="primitive:  sphere;  radius:  868.5;  segmentsHeight:  26;  segmentsWidth:  52"
+            scale=".8 .8 .8"
+            
             animation="property: rotation; to: 0 360 0; loop: true; dur: 2332800000; easing: linear"
         ></a-sphere>
         
@@ -166,7 +164,7 @@
         joystick.addEventListener('click', function(){
 
             moon.setAttribute('animation', 
-                'property: scale; from: 1 1 1; to: .8 .8 .8; dur: 15000; loop:false')
+                'property: scale; from: 1 1 1; to: .8 .8 .8; dur: 15000; loop:false');
         })
         
     </script>
