@@ -77,7 +77,7 @@
                 
                 <a-entity id="cassette_player_gltf" 
                     gltf-model = '#cassette_player'
-                    position="70 4 -45" 
+                    position="75 6 -40" 
                     rotation="12 60 0"
                     scale="0.015 0.015 0.015"
                     animation="property: rotation; to: 12 60 360; loop: true; dur: 80000; easing: linear;">
@@ -144,7 +144,8 @@
 
         cursor_color(cassette_player);
         cursor_color(joystick)
-
+        
+        // plays music when the user clicks on the tape player
         let click_count = 0;
         cassette_player.addEventListener('click', function(){
             
@@ -162,7 +163,9 @@
             click_count ++
 
             })
+        
 
+        // cahnges moon scale when the user clicks on the joystick
         let stop = ['.8 .8 .8', '1 1 1']
         joystick.addEventListener('click', function(){
 
@@ -172,7 +175,7 @@
             if (start == '1 1 1'){
                 moon.setAttribute('animation', 
                     `property: scale; from: ${start}; to: ${stop[0]}; dur: 30000; loop:false`);
-                } else {
+                } else if (start == '0.8 0.8 0.8') {
                     moon.setAttribute('animation',
                     `property: scale; from: ${start}; to: ${stop[1]}; dur: 30000; loop:false`);
                 }});
