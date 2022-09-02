@@ -12,18 +12,18 @@
 <body>
 
     <a-scene background="color: #000000" shadow="autoUpdate: true; type:pcfsoft" renderer="colorManagement: true;">
-        <a-assets>
+        <a-assets timeout="10000">
             <!-- <a-asset-item id="moon" src='assets/moon.glb'></a-asset-item> -->
             <a-asset-item id="csm" src="assets/apollo_interior-medium_resolution.glb"></a-asset-item>
             <a-asset-item id="cassette_player" src="assets/stylized_cassette_player.glb"></a-asset-item>
             <img id="space" src="assets/space.png">
             <img id="moon_texture" src="assets/lroc_color_poles_8k.jpg">
-            <img id="moon_disp" src="assets/ldem_16.png">
-            <audio id="nasa_radio" src="assets/Apollo-11_Day-03-Highlights-trimmed.mp3"></audio>
-            <audio id="song_1" src="assets/Fake_It_Til_You_Fake_ It.mp3" preload="auto"></audio>
-            <audio id="song_2" src="assets/Hold_on_a_Sec.mp3" preload="auto"></audio>
-            <audio id="song_3" src="assets/Burning_Trapezoid_of_Fire.mp3" preload="auto"></audio>
-            <audio id="song_4" src="assets/The_Celebrated_Minue_ for_Piano.mp3" preload="auto"></audio>
+            <!-- <img id="moon_disp" src="assets/ldem_16.png"> -->
+            <audio id="nasa_radio" preload="auto" src="assets/Apollo-11_Day-03-Highlights-trimmed.mp3" ></audio>
+            <audio id="song_1" preload="auto" src="assets/Fake_It_Til_You_Fake_ It.mp3" ></audio>
+            <audio id="song_2" preload="auto" src="assets/Hold_on_a_Sec.mp3" ></audio>
+            <audio id="song_3" preload="auto" src="assets/The_Celebrated_Minue_ for_Piano.mp3" ></audio>
+            <audio id="song_4" src="assets/Burning_Trapezoid_of_Fire.mp3" preload="auto"></audio>
         </a-assets>
         
         <a-sky src="#space" 
@@ -82,8 +82,17 @@
                     scale="0.015 0.015 0.015"
                     animation="property: rotation; to: 12 60 360; loop: true; dur: 80000; easing: linear;">
                     
-                    <a-entity id="radio_sound"
-                        sound="src: #song_1; autoplay:false; loop: true; maxDistance: 100">
+                    <a-entity id="radio_sound_1"
+                        sound="src: #song_1; autoplay:false; loop: false;">
+                    </a-entity>
+                    <a-entity id="radio_sound_2"
+                        sound="src: #song_2; autoplay:false; loop: false;">
+                    </a-entity>
+                    <a-entity id="radio_sound_3"
+                        sound="src: #song_3; autoplay:false; loop: false;">
+                    </a-entity>
+                    <a-entity id="radio_sound_4"
+                        sound="src: #song_4; autoplay:false; loop: false;">
                     </a-entity>
                 </a-entity>
 
@@ -99,16 +108,25 @@
             <a-entity id="rig" position="-.044 -1.595 880.013">
                 <a-camera 
                 camera="far:  1000000;  fov:  75" 
-                look-controls=""
-                >
-                    <!--TEST FUSE FOR MOBILE-->
+                look-controls="">
+
                     <a-cursor id="my_cursor"
                         color="#E9E9E9"
                         position="0 0 -.01"
-                        scale=".01 .01 .01"
+                        scale=".015 .015 .015"
                         material="opacity: 0.7"
-                        geometry="radiusOuter: 0.01; radiusInner: 0.005"
+                        geometry="radiusOuter: 0.01; radiusInner: 0.006"
                         raycaster = "far: 20; interval: 1000; objects: #trigger_anim,#cassette_player_gltf"
+                        fuse="'true"
+                        fuse-timeout="2500"
+                        animation__mouseenter=
+                            "property: components.material.material.color; type: color; to: #e06666; startEvents: mouseenter; dur: 0"
+                        animation__mouseleavecolor=
+                            "property: components.material.material.color; type: color; to: #E9E9E9; startEvents: mouseleave; dur: 0"
+                        animation__fusing="property: 
+                            scale; startEvents: fusing; easing: easeInCubic; dur: 2500; from: .015 .015 .015; to: 0.01 0.01 0.01"
+                        animation__mouseleave="property: 
+                            scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: .015 .015 .015"
                         >
                     </a-cursor>
                 </a-camera>
@@ -125,48 +143,52 @@
     <script>
         let cassette_player = document.getElementById('cassette_player_gltf');
         let nasa_radio_sound = document.getElementById('nasa_sound');
-        let radio_sound = document.getElementById('radio_sound');
         let joystick = document.getElementById('trigger_anim');
         let moon = document.getElementById('moon')
 
-        function cursor_color(elem) {
+        // function cursor_color(elem) {
 
-            let cursor = document.getElementById('my_cursor');
+        //     let cursor = document.getElementById('my_cursor');
 
-            elem.addEventListener('mouseenter', function(){
-                cursor.setAttribute('color', '#e06666');
-            });
+        //     elem.addEventListener('mouseenter', function(){
+        //         cursor.setAttribute('color', '#e06666');
+        //     });
             
-            elem.addEventListener('mouseleave', function(){
-                cursor.setAttribute('color', '#E9E9E9');
-            });
-        }
+        //     elem.addEventListener('mouseleave', function(){
+        //         cursor.setAttribute('color', '#E9E9E9');
+        //     });
+        // }
 
-        cursor_color(cassette_player);
-        cursor_color(joystick)
+        // cursor_color(cassette_player);
+        // cursor_color(joystick)
         
         // plays music when the user clicks on the tape player
         let click_count = 0;
+        let play_count = 0;
+        
         cassette_player.addEventListener('click', function(){
-            
+
+            // let song_to_play = song_list[play_count%4]
+            let radio_sound = document.getElementById(`radio_sound_${play_count%3+1}`);
+
             if (click_count%2 == 0) {
 
                 nasa_radio_sound.components.sound.pauseSound();
                 radio_sound.components.sound.playSound();
+                
 
             } else {
 
                 nasa_radio_sound.components.sound.playSound();
                 radio_sound.components.sound.pauseSound();
-            
-            }
-            click_count ++
+                play_count ++;
+            };
+            click_count ++;
 
-            })
+            });
         
-
-        // cahnges moon scale when the user clicks on the joystick
-        let stop = ['.8 .8 .8', '1 1 1']
+        // changes moon scale when the user clicks on the joystick
+        let stop = ['.8 .8 .8', '1 1 1'];
         joystick.addEventListener('click', function(){
 
             current_scale= moon.getAttribute('scale');
