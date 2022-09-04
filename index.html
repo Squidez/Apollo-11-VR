@@ -10,9 +10,81 @@
 
 </head>
 <body>
+    <script>
+        AFRAME.registerComponent('change_radio', {
+
+            schema: {
+                event: {type: 'string', default: 'click'}
+            },
+
+            update: function() {
+                
+                let data=this.data;
+                let el = this.el;
+                // plays music when the user clicks on the tape player
+                let nasa_radio_sound = document.getElementById('nasa_sound');
+                
+                
+                let click_count = 0;
+                let play_count = 0;
+                el.addEventListener(data.event, function(){
+
+                let radio_sound = document.getElementById(`radio_sound_${play_count%4+1}`);
+
+                if (click_count%2 == 0) {
+                
+                    nasa_radio_sound.components.sound.pauseSound();
+                    radio_sound.components.sound.playSound();
+
+                    if (radio_sound.components.sound.on == 'null') {
+                        play_count ++;
+                        radio_sound.components.sound.playSound();
+                    }
+                
+                } else {
+                
+                    nasa_radio_sound.components.sound.playSound();
+                    radio_sound.components.sound.pauseSound();
+                    play_count ++;
+                };
+                click_count ++;
+                });
+            }
+        });
+
+        AFRAME.registerComponent('change_scale', {
+
+            schema: {
+                event: {type: 'string', default: 'click'}
+            },
+
+            // changes moon scale when the user clicks on the joystick
+            update: function() {
+                
+                let data=this.data;
+                let el = this.el;
+                let stop = ['.8 .8 .8', '1 1 1'];
+                let moon = document.getElementById('moon')
+                
+                el.addEventListener(data.event, function(){
+
+                    current_scale= moon.getAttribute('scale');
+                    let start= `${current_scale.x} ${current_scale.y} ${current_scale.z}`;
+
+                    if (start == '1 1 1'){
+                        moon.setAttribute('animation', 
+                            `property: scale; from: ${start}; to: ${stop[0]}; dur: 30000; easing: easeOutQuad; loop:false`);
+                        } else if (start == '0.8 0.8 0.8') {
+                            moon.setAttribute('animation',
+                            `property: scale; from: ${start}; to: ${stop[1]}; dur: 30000; loop:false`);
+                        }
+                });
+            }
+        });
+    </script>
 
     <a-scene background="color: #000000" shadow="autoUpdate: true; type:pcfsoft" renderer="colorManagement: true;">
-        <a-assets>
+        <a-assets timeout="10000">
             <!-- <a-asset-item id="moon" src='assets/moon.glb'></a-asset-item> -->
             <a-asset-item id="csm" src="assets/csm_100_scale.glb"></a-asset-item>
             <a-asset-item id="cassette_player" src="assets/stylized_cassette_player.glb"></a-asset-item>
@@ -34,13 +106,14 @@
         <a-light id="sun"
             type="directional"
             intensity="1.5"
-            castShadow="true"
+            castShadow="false"
             position="1 1 1">
         </a-light>
 
         <!-- light inside the csm -->
         <a-light id="csm_ambiant"
             type="point"
+            castShadow="false"
             target="#csm_gltf">
         </a-light>
 
@@ -55,8 +128,8 @@
             src="#moon_texture"
             geometry="primitive:  sphere;  radius:  173.7;  segmentsHeight:  18;  segmentsWidth:  36"
             scale="1 1 1"
-            animation="property: rotation; to: 0 360 0; loop: true; dur: 2332800000; easing: linear"
-        ></a-sphere>
+            animation="property: rotation; to: 0 360 0; loop: true; dur: 2332800000; easing: linear">
+        </a-sphere>
         
        
         <!-- creates the orbit for the csm -->
@@ -80,7 +153,8 @@
                     position=".006 0.019 -.003" 
                     rotation="12 60 0"
                     scale=".025 .025 .025"
-                    animation="property: rotation; to: 12 60 360; loop: true; dur: 80000; easing: linear;">
+                    animation="property: rotation; to: 12 60 360; loop: true; dur: 80000; easing: linear;"
+                    change_radio="event:click">
                     
                     <a-entity id="radio_sound_1"
                         sound="src: #song_1; autoplay:false; loop: false;">
@@ -102,7 +176,8 @@
                     scale="0.003 0.003 0.003"
                     material="color: #ff0000"
                     visible="false"
-                    geometry="depth: 0.5; height: 0.2; width: 0.3">
+                    geometry="depth: 0.5; height: 0.2; width: 0.3"
+                    change_scale="event:click">
                 </a-box>
 
                 <a-entity id="rig" position=".008 -1.582 -.001">
@@ -142,28 +217,12 @@
     </a-scene>
 
     
-    <script>
+    <!-- <script>
         let cassette_player = document.getElementById('cassette_player_gltf');
         let nasa_radio_sound = document.getElementById('nasa_sound');
         let joystick = document.getElementById('trigger_anim');
         let moon = document.getElementById('moon')
 
-        // function cursor_color(elem) {
-
-        //     let cursor = document.getElementById('my_cursor');
-
-        //     elem.addEventListener('mouseenter', function(){
-        //         cursor.setAttribute('color', '#e06666');
-        //     });
-            
-        //     elem.addEventListener('mouseleave', function(){
-        //         cursor.setAttribute('color', '#E9E9E9');
-        //     });
-        // }
-
-        // cursor_color(cassette_player);
-        // cursor_color(joystick)
-        
         // plays music when the user clicks on the tape player
         let click_count = 0;
         let play_count = 0;
@@ -204,6 +263,6 @@
                     `property: scale; from: ${start}; to: ${stop[1]}; dur: 30000; loop:false`);
                 }});
         
-    </script>
+    </script> -->
 </body>
 </html>
