@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Apollo</title>
 
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
 
@@ -12,18 +12,18 @@
 <body>
 
     <a-scene background="color: #000000" shadow="autoUpdate: true; type:pcfsoft" renderer="colorManagement: true;">
-        <a-assets timeout="10000">
+        <a-assets>
             <!-- <a-asset-item id="moon" src='assets/moon.glb'></a-asset-item> -->
-            <a-asset-item id="csm" src="assets/apollo_interior-medium_resolution.glb"></a-asset-item>
+            <a-asset-item id="csm" src="assets/csm_100_scale.glb"></a-asset-item>
             <a-asset-item id="cassette_player" src="assets/stylized_cassette_player.glb"></a-asset-item>
             <img id="space" src="assets/space.png">
-            <img id="moon_texture" src="assets/lroc_color_poles_8k.jpg">
+            <img id="moon_texture" src="assets/lroc_color_poles_16k.jpg">
             <!-- <img id="moon_disp" src="assets/ldem_16.png"> -->
             <audio id="nasa_radio" preload="auto" src="assets/Apollo-11_Day-03-Highlights-trimmed.mp3" ></audio>
             <audio id="song_1" preload="auto" src="assets/Fake_It_Til_You_Fake_ It.mp3" ></audio>
             <audio id="song_2" preload="auto" src="assets/Hold_on_a_Sec.mp3" ></audio>
             <audio id="song_3" preload="auto" src="assets/The_Celebrated_Minue_ for_Piano.mp3" ></audio>
-            <audio id="song_4" src="assets/Burning_Trapezoid_of_Fire.mp3" preload="auto"></audio>
+            <audio id="song_4" preload="auto" src="assets/Burning_Trapezoid_of_Fire.mp3"></audio>
         </a-assets>
         
         <a-sky src="#space" 
@@ -53,7 +53,7 @@
 
         <a-sphere id="moon"
             src="#moon_texture"
-            geometry="primitive:  sphere;  radius:  868.5;  segmentsHeight:  18;  segmentsWidth:  36"
+            geometry="primitive:  sphere;  radius:  173.7;  segmentsHeight:  18;  segmentsWidth:  36"
             scale="1 1 1"
             animation="property: rotation; to: 0 360 0; loop: true; dur: 2332800000; easing: linear"
         ></a-sphere>
@@ -63,23 +63,23 @@
         <a-sphere id="scm_orbit" 
             position="0 0 0"
             rotation="0 55 0" 
-            radius="880" 
+            radius="175" 
             material="visible: false" 
             animation="property: rotation; to: 0 415 0; loop: true; dur: 9682991; easing: linear">
 
             <!-- import csm model -->
             <a-entity id="csm_gltf"
                 gltf-model="#csm" 
-                position="0 0 880" 
+                position="0 0 175" 
                 rotation="0 180 0" 
-                scale="0.0005 0.0005 0.0005"
+                scale="0.01 0.01 0.01"
                 >
                 
                 <a-entity id="cassette_player_gltf" 
                     gltf-model = '#cassette_player'
-                    position="75 6 -40" 
+                    position=".006 0.019 -.003" 
                     rotation="12 60 0"
-                    scale="0.015 0.015 0.015"
+                    scale=".025 .025 .025"
                     animation="property: rotation; to: 12 60 360; loop: true; dur: 80000; easing: linear;">
                     
                     <a-entity id="radio_sound_1"
@@ -96,43 +96,45 @@
                     </a-entity>
                 </a-entity>
 
-                <a-box id="trigger_anim"
-                    position="118.7 1.6 -77"
-                    rotation="-20 0 -5"
-                    scale="4.5 5.5 12.3"
-                    visible="false">
+                <a-box id="trigger_anim" 
+                    position="0.012 0.0185 -0.0045"
+                    rotation="-20 0 0"
+                    scale="0.003 0.003 0.003"
+                    material="color: #ff0000"
+                    visible="false"
+                    geometry="depth: 0.5; height: 0.2; width: 0.3">
                 </a-box>
 
-            </a-entity>
-
-            <a-entity id="rig" position="-.044 -1.595 880.013">
-                <a-camera 
-                camera="far:  1000000;  fov:  75" 
-                look-controls="">
-
-                    <a-cursor id="my_cursor"
-                        color="#E9E9E9"
-                        position="0 0 -.01"
-                        scale=".015 .015 .015"
-                        material="opacity: 0.7"
-                        geometry="radiusOuter: 0.01; radiusInner: 0.006"
-                        raycaster = "far: 20; interval: 1000; objects: #trigger_anim,#cassette_player_gltf"
-                        fuse="'true"
-                        fuse-timeout="2500"
-                        animation__mouseenter=
-                            "property: components.material.material.color; type: color; to: #e06666; startEvents: mouseenter; dur: 0"
-                        animation__mouseleavecolor=
-                            "property: components.material.material.color; type: color; to: #E9E9E9; startEvents: mouseleave; dur: 0"
-                        animation__fusing="property: 
-                            scale; startEvents: fusing; easing: easeInCubic; dur: 2500; from: .015 .015 .015; to: 0.01 0.01 0.01"
-                        animation__mouseleave="property: 
-                            scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: .015 .015 .015"
-                        >
-                    </a-cursor>
-                </a-camera>
-                
-                <a-entity id="nasa_sound" 
-                        sound="src: #nasa_radio; autoplay: true; volume: 1">
+                <a-entity id="rig" position=".008 -1.582 -.001">
+                    <a-camera 
+                    camera="far:  40000; near: 0.001; fov:  80"
+                    scale=".2 .2 .2"
+                    look-controls="">
+    
+                        <a-cursor id="my_cursor"
+                            color="#E9E9E9"
+                            position="0 0 -.0015"
+                            scale=".002 .002 .002"
+                            material="opacity: 0.7"
+                            geometry="radiusOuter: 0.01; radiusInner: 0.006"
+                            raycaster = "far: 20; interval: 1000; objects: #trigger_anim,#cassette_player_gltf"
+                            fuse="'true"
+                            fuse-timeout="2000"
+                            animation__mouseenter=
+                                "property: components.material.material.color; type: color; to: #e06666; startEvents: mouseenter; dur: 0"
+                            animation__mouseleavecolor=
+                                "property: components.material.material.color; type: color; to: #E9E9E9; startEvents: mouseleave; dur: 0"
+                            animation__fusing="property: 
+                                scale; startEvents: fusing; easing: easeInCubic; dur: 2000; from: .002 .002 .002; to: .001 .001 .001"
+                            animation__mouseleave="property: 
+                                scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: .002 .002 .002"
+                            >
+                        </a-cursor>
+                    </a-camera>
+                    
+                    <a-entity id="nasa_sound" 
+                            sound="src: #nasa_radio; autoplay: true; volume: 1">
+                    </a-entity>
                 </a-entity>
             </a-entity>
 
@@ -169,7 +171,7 @@
         cassette_player.addEventListener('click', function(){
 
             // let song_to_play = song_list[play_count%4]
-            let radio_sound = document.getElementById(`radio_sound_${play_count%3+1}`);
+            let radio_sound = document.getElementById(`radio_sound_${play_count%4+1}`);
 
             if (click_count%2 == 0) {
 
@@ -196,7 +198,7 @@
 
             if (start == '1 1 1'){
                 moon.setAttribute('animation', 
-                    `property: scale; from: ${start}; to: ${stop[0]}; dur: 30000; loop:false`);
+                    `property: scale; from: ${start}; to: ${stop[0]}; dur: 30000; easing: easeOutQuad; loop:false`);
                 } else if (start == '0.8 0.8 0.8') {
                     moon.setAttribute('animation',
                     `property: scale; from: ${start}; to: ${stop[1]}; dur: 30000; loop:false`);
