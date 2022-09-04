@@ -79,29 +79,29 @@
             }
         });
 
-        AFRAME.registerComponent('check_VR', {
+        // AFRAME.registerComponent('check_VR', {
 
-            schema: {
-                event: {type: 'string', default: 'enter-vr'}
-            },
+        //     schema: {
+        //         event: {type: 'string', default: 'enter-vr'}
+        //     },
 
-            update: function() {
-                let el = this.el;
-                let data = this.data;
-                let camera = document.getElementById('cam');
+        //     update: function() {
+        //         let el = this.el;
+        //         let data = this.data;
+        //         let camera = document.getElementById('cam');
 
-                el.addEventListener('enter-vr', function(){
-                    cam.setAttribute('position', '.008 -1.581 -.001');
-                });
-            }
-        });
+        //         el.addEventListener('enter-vr', function(){
+        //             cam.setAttribute('position', '.008 -1.581 -.001');
+        //         });
+        //     }
+        // });
     </script>
 
     <a-scene background="color: #000000" 
         shadow="autoUpdate: true; type:pcfsoft" 
-        renderer="colorManagement: true;"
-        check_VR="event: enter-vr">
-        <a-assets timeout="10000">
+        renderer="colorManagement: true;">
+        
+        <a-assets>
             <!-- <a-asset-item id="moon" src='assets/moon.glb'></a-asset-item> -->
             <a-asset-item id="csm" src="assets/csm_100_scale.glb"></a-asset-item>
             <a-asset-item id="cassette_player" src="assets/stylized_cassette_player.glb"></a-asset-item>
@@ -196,14 +196,24 @@
                     geometry="depth: 0.5; height: 0.2; width: 0.3"
                     change_scale="event:click">
                 </a-box>
+            </a-entity>
+            <!-- .008 .019 -.001 -->
+            <a-entity id="rig" position="-0.00008 0.00019 175.00001" rotation="">
+                <a-entity id="cam" camera="far: 40000; near: 0.00001" position="" look-controls="" data-aframe-inspector-original-camera="">
 
-                <!-- <a-entity id="rig" 
-                    position=".008 .019 -.001"
-                    rotation="0 180 0"> -->
+                    <a-cursor id="my_cursor" color="#E9E9E9" position="0 0 -0.0015" scale="0.002 0.002 0.002" material="opacity: 0.7" geometry="radiusOuter: 0.01; radiusInner: 0.006" raycaster="far: 20; interval: 1000; objects: #trigger_anim,#cassette_player_gltf" fuse="'true" fuse-timeout="2000" animation__mouseenter="property: components.material.material.color; type: color; to: #e06666; startEvents: mouseenter; dur: 0" animation__mouseleavecolor="property: components.material.material.color; type: color; to: #E9E9E9; startEvents: mouseleave; dur: 0" animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 2000; from: .002 .002 .002; to: .001 .001 .001" animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: .002 .002 .002" cursor="">
+                    </a-cursor>
+                </a-entity>
+                
+                <a-entity id="nasa_sound" sound="src: assets/Apollo-11_Day-03-Highlights-trimmed.mp3; autoplay: true">
+                </a-entity>
+            </a-entity>
+            <!-- <a-entity id="rig" 
+                    position="0 0 175"
+                    rotation="0 0 0">
                     <a-entity id="cam" 
                         camera="far:  40000; near: 0.001; fov:  80"
-                        position=".008 .019 -.001"
-                        rotation="0 180 0"
+                        position="0 0 0"
                         look-controls=" ">
     
                         <a-cursor id="my_cursor"
@@ -230,8 +240,7 @@
                     <a-entity id="nasa_sound" 
                             sound="src: #nasa_radio; autoplay: true; volume: 1">
                     </a-entity>
-                <!-- </a-entity> -->
-            </a-entity>
+                </a-entity> -->
 
         </a-sphere>
     </a-scene>
