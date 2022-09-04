@@ -79,28 +79,28 @@
             }
         });
 
-        // AFRAME.registerComponent('change_pos', {
-        //     schema: {
-        //         event: {type: 'string', default: 'enter-vr'}
-        //     },
+        AFRAME.registerComponent('change_pos', {
+            schema: {
+                event: {type: 'string', default: 'enter-vr'}
+            },
 
-        //     update: function() {
-        //         let data=this.data;
-        //         let el = this.el;
-        //         let csm = document.getElementById('csm_gltf');
+            update: function() {
+                let data=this.data;
+                let el = this.el;
+                let rig = document.getElementById('rig');
 
-        //         el.addEventListener(data.event, function(){
-        //             csm.setAttribute('position', {x: 0, y: 1.6, z: 0})
-        //         });
-        //     }
-        // })
+                el.addEventListener(data.event, function(){
+                    rig.setAttribute('position', {x: .008, y: -1.581, z: -.001})
+                });
+            }
+        })
 
     </script>
 
     <a-scene background="color: #000000" 
         shadow="autoUpdate: true; type:pcfsoft" 
         renderer="colorManagement: true;"
-        change_pos="enter-vr">
+        change_pos="event: enter-vr">
         
         <a-assets>
             <!-- <a-asset-item id="moon" src='assets/moon.glb'></a-asset-item> -->
