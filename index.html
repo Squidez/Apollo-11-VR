@@ -78,6 +78,23 @@
                 });
             }
         });
+
+        AFRAME.registerComponent('check_VR', {
+
+            schema: {
+                event: {type: 'string', default: 'enter-vr'}
+            },
+
+            update: function() {
+                let el = this.el;
+                let data = this.data;
+                let camera = document.getElementById('cam');
+
+                el.addEventListener('enter-vr', function(){
+                    cam.setAttribute('position', '.008 -1.581 -.001');
+                });
+            }
+        });
     </script>
 
     <a-scene background="color: #000000" shadow="autoUpdate: true; type:pcfsoft" renderer="colorManagement: true;">
@@ -180,7 +197,8 @@
                 <!-- <a-entity id="rig" 
                     position=".008 .019 -.001"
                     rotation="0 180 0"> -->
-                    <a-entity camera="far:  40000; near: 0.001; fov:  80"
+                    <a-entity id="cam" 
+                        camera="far:  40000; near: 0.001; fov:  80"
                         position=".008 .019 -.001"
                         rotation="0 180 0"
                         look-controls=" ">
