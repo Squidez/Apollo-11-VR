@@ -79,22 +79,26 @@
             }
         });
 
-        // AFRAME.registerComponent('check_VR', {
+        AFRAME.registerPrimitive('my-camera', {
+            defaultComponents: {
+              'camera': {},
+              'look-controls': {},
+              'wasd-controls': {},
+              'position': {x: 0, y: 1.6, z: 0}
+            },
 
-        //     schema: {
-        //         event: {type: 'string', default: 'enter-vr'}
-        //     },
-
-        //     update: function() {
-        //         let el = this.el;
-        //         let data = this.data;
-        //         let camera = document.getElementById('cam');
-
-        //         el.addEventListener('enter-vr', function(){
-        //             cam.setAttribute('position', '.008 -1.581 -.001');
-        //         });
-        //     }
-        // });
+            mappings: {
+              active: 'camera.active',
+              far: 'camera.far',
+              fov: 'camera.fov',
+              'look-controls-enabled': 'look-controls.enabled',
+              near: 'camera.near',
+              'pointer-lock-enabled': 'look-controls.pointerLockEnabled',
+              'wasd-controls-enabled': 'wasd-controls.enabled',
+              'reverse-mouse-drag': 'look-controls.reverseMouseDrag',
+              zoom: 'camera.zoom'
+            }
+        });
     </script>
 
     <a-scene background="color: #000000" 
@@ -196,22 +200,11 @@
                     geometry="depth: 0.5; height: 0.2; width: 0.3"
                     change_scale="event:click">
                 </a-box>
-            </a-entity>
-            <!-- .008 .019 -.001 -->
-            <a-entity id="rig" position="-0.00008 0.00019 175.00001" rotation="">
-                <a-entity id="cam" camera="far: 40000; near: 0.00001" position="" look-controls="" data-aframe-inspector-original-camera="">
-
-                    <a-cursor id="my_cursor" color="#E9E9E9" position="0 0 -0.0015" scale="0.002 0.002 0.002" material="opacity: 0.7" geometry="radiusOuter: 0.01; radiusInner: 0.006" raycaster="far: 20; interval: 1000; objects: #trigger_anim,#cassette_player_gltf" fuse="'true" fuse-timeout="2000" animation__mouseenter="property: components.material.material.color; type: color; to: #e06666; startEvents: mouseenter; dur: 0" animation__mouseleavecolor="property: components.material.material.color; type: color; to: #E9E9E9; startEvents: mouseleave; dur: 0" animation__fusing="property: scale; startEvents: fusing; easing: easeInCubic; dur: 2000; from: .002 .002 .002; to: .001 .001 .001" animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: .002 .002 .002" cursor="">
-                    </a-cursor>
-                </a-entity>
                 
-                <a-entity id="nasa_sound" sound="src: assets/Apollo-11_Day-03-Highlights-trimmed.mp3; autoplay: true">
-                </a-entity>
-            </a-entity>
-            <!-- <a-entity id="rig" 
-                    position="0 0 175"
+                <a-entity id="rig" 
+                    position=".008 .019 -.001"
                     rotation="0 0 0">
-                    <a-entity id="cam" 
+                    <my-camera id="cam" 
                         camera="far:  40000; near: 0.001; fov:  80"
                         position="0 0 0"
                         look-controls=" ">
@@ -235,12 +228,16 @@
                                 scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: .002 .002 .002"
                             >
                         </a-cursor>
-                    </a-entity>
+                    </my-camera>
                     
                     <a-entity id="nasa_sound" 
                             sound="src: #nasa_radio; autoplay: true; volume: 1">
                     </a-entity>
-                </a-entity> -->
+                </a-entity>
+            </a-entity>
+           
+                
+            
 
         </a-sphere>
     </a-scene>
