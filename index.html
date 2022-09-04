@@ -177,10 +177,9 @@
                     change_scale="event:click">
                 </a-box>
 
-                <a-entity id="rig" position=".008 -1.582 -.001">
-                    <a-camera 
-                    camera="far:  40000; near: 0.001; fov:  80"
-                    scale=".2 .2 .2"
+                <a-entity id="rig" position=".008 .019 -.001">
+                    <a-entity camera="far:  40000; near: 0.001; fov:  80"
+                    user-height="0"
                     look-controls="">
     
                         <a-cursor id="my_cursor"
@@ -202,7 +201,7 @@
                                 scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: .002 .002 .002"
                             >
                         </a-cursor>
-                    </a-camera>
+                    </a-entity>
                     
                     <a-entity id="nasa_sound" 
                             sound="src: #nasa_radio; autoplay: true; volume: 1">
