@@ -21,25 +21,22 @@
                 
                 let data=this.data;
                 let el = this.el;
-                // plays music when the user clicks on the tape player
                 let nasa_radio_sound = document.getElementById('nasa_sound');
                 
                 
                 let click_count = 0;
                 let play_count = 0;
-                el.addEventListener(data.event, function(){
 
+                // switches between the music and the nasa radio on each click
+                el.addEventListener(data.event, function(){
+                
+                // changes the song for each time 
                 let radio_sound = document.getElementById(`radio_sound_${play_count%4+1}`);
 
                 if (click_count%2 == 0) {
                 
                     nasa_radio_sound.components.sound.pauseSound();
                     radio_sound.components.sound.playSound();
-
-                    if (radio_sound.components.sound.on == 'null') {
-                        play_count ++;
-                        radio_sound.components.sound.playSound();
-                    }
                 
                 } else {
                 
@@ -215,54 +212,5 @@
 
         </a-sphere>
     </a-scene>
-
-    
-    <!-- <script>
-        let cassette_player = document.getElementById('cassette_player_gltf');
-        let nasa_radio_sound = document.getElementById('nasa_sound');
-        let joystick = document.getElementById('trigger_anim');
-        let moon = document.getElementById('moon')
-
-        // plays music when the user clicks on the tape player
-        let click_count = 0;
-        let play_count = 0;
-        
-        cassette_player.addEventListener('click', function(){
-
-            // let song_to_play = song_list[play_count%4]
-            let radio_sound = document.getElementById(`radio_sound_${play_count%4+1}`);
-
-            if (click_count%2 == 0) {
-
-                nasa_radio_sound.components.sound.pauseSound();
-                radio_sound.components.sound.playSound();
-                
-
-            } else {
-
-                nasa_radio_sound.components.sound.playSound();
-                radio_sound.components.sound.pauseSound();
-                play_count ++;
-            };
-            click_count ++;
-
-            });
-        
-        // changes moon scale when the user clicks on the joystick
-        let stop = ['.8 .8 .8', '1 1 1'];
-        joystick.addEventListener('click', function(){
-
-            current_scale= moon.getAttribute('scale');
-            let start= `${current_scale.x} ${current_scale.y} ${current_scale.z}`;
-
-            if (start == '1 1 1'){
-                moon.setAttribute('animation', 
-                    `property: scale; from: ${start}; to: ${stop[0]}; dur: 30000; easing: easeOutQuad; loop:false`);
-                } else if (start == '0.8 0.8 0.8') {
-                    moon.setAttribute('animation',
-                    `property: scale; from: ${start}; to: ${stop[1]}; dur: 30000; loop:false`);
-                }});
-        
-    </script> -->
 </body>
 </html>
