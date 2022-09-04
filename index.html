@@ -32,12 +32,14 @@
                 
                 // changes the song for each time 
                 let radio_sound = document.getElementById(`radio_sound_${play_count%4+1}`);
-
+                
+                // plays music if the click is an even number
                 if (click_count%2 == 0) {
                 
                     nasa_radio_sound.components.sound.pauseSound();
                     radio_sound.components.sound.playSound();
                 
+                // plays back the nasa radio and increment the song number
                 } else {
                 
                     nasa_radio_sound.components.sound.playSound();
@@ -68,6 +70,7 @@
                     current_scale= moon.getAttribute('scale');
                     let start= `${current_scale.x} ${current_scale.y} ${current_scale.z}`;
 
+                    // changes the moon's scale depending on its current one
                     if (start == '1 1 1'){
                         moon.setAttribute('animation', 
                             `property: scale; from: ${start}; to: ${stop[0]}; dur: 30000; easing: easeOutQuad; loop:false`);
@@ -78,22 +81,23 @@
                 });
             }
         });
+        
+        // 
+        // AFRAME.registerComponent('change_pos', {
+        //     schema: {
+        //         event: {type: 'string', default: 'enter-vr'}
+        //     },
 
-        AFRAME.registerComponent('change_pos', {
-            schema: {
-                event: {type: 'string', default: 'enter-vr'}
-            },
+        //     update: function() {
+        //         let data=this.data;
+        //         let el = this.el;
+        //         let rig = document.getElementById('rig');
 
-            update: function() {
-                let data=this.data;
-                let el = this.el;
-                let rig = document.getElementById('rig');
-
-                el.addEventListener(data.event, function(){
-                    rig.setAttribute('position', {x: .008, y: -1.581, z: -.001})
-                });
-            }
-        })
+        //         el.addEventListener(data.event, function(){
+        //             rig.setAttribute('position', {x: .008, y: -1.581, z: -.001})
+        //         });
+        //     }
+        // })
 
     </script>
 
@@ -135,13 +139,7 @@
             target="#csm_gltf">
         </a-light>
 
-        <!-- import moon model (creates weird shadows sometimes)-->
-        <!-- <a-entity id="moon_gltf" 
-            gltf-model="#moon"
-            scale="1 1 1"
-            animation="property: rotation; to: 0 360 0; loop: true; dur: 2332800000; easing: linear">
-        </a-entity> -->
-
+        <!-- Moon -->
         <a-sphere id="moon"
             src="#moon_texture"
             geometry="primitive:  sphere;  radius:  173.7;  segmentsHeight:  18;  segmentsWidth:  36"
@@ -166,6 +164,7 @@
                 scale="0.01 0.01 0.01"
                 >
                 
+                <!-- Cassette player and songs -->
                 <a-entity id="cassette_player_gltf" 
                     gltf-model = '#cassette_player'
                     position=".006 0.019 -.003" 
@@ -188,6 +187,7 @@
                     </a-entity>
                 </a-entity>
 
+                <!-- box to trigger the orbit change animation -->
                 <a-box id="trigger_anim" 
                     position="0.012 0.0185 -0.0045"
                     rotation="-20 0 0"
@@ -198,16 +198,19 @@
                     change_scale="event:click">
                 </a-box>
 
+                <!-- rig holding the camera -->
                 <a-entity id="rig" 
                     position=".008 .019 -.001"
                     rotation="0 0 0">
 
+                    <!-- camera -->
                     <a-camera id="cam" 
                         far="40000"  
                         near= "0.001" 
                         fov= "80"
                         position="0 0 0">
-    
+
+                        <!-- cursor and fusing animations/events -->
                         <a-cursor id="my_cursor"
                             color="#E9E9E9"
                             position="0 0 -.0015"
@@ -234,10 +237,6 @@
                     </a-entity>
                 </a-entity>
             </a-entity>
-           
-                
-            
-
         </a-sphere>
     </a-scene>
 </body>
