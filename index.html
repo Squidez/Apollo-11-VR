@@ -79,31 +79,47 @@
             }
         });
 
-        AFRAME.registerPrimitive('my-camera', {
-            defaultComponents: {
-              'camera': {},
-              'look-controls': {},
-              'wasd-controls': {},
-              'position': {x: 0, y: 0, z: 0}
+        AFRAME.registerComponent('changge_pos', {
+            schema: {
+                event: {type: 'string', default: 'enter-vr'}
             },
 
-            mappings: {
-              active: 'camera.active',
-              far: 'camera.far',
-              fov: 'camera.fov',
-              'look-controls-enabled': 'look-controls.enabled',
-              near: 'camera.near',
-              'pointer-lock-enabled': 'look-controls.pointerLockEnabled',
-              'wasd-controls-enabled': 'wasd-controls.enabled',
-              'reverse-mouse-drag': 'look-controls.reverseMouseDrag',
-              zoom: 'camera.zoom'
+            update: function() {
+                let data=this.data;
+                let el = this.el;
+                let rig = document.getElementById('rig');
+
+                el.addEventListener(data.event, function(){
+                    rig.setAttribute('position', '.008 1.581 -.001')
+                });
             }
-        });
+        })
+        // AFRAME.registerPrimitive('my-camera', {
+        //     defaultComponents: {
+        //       'camera': {},
+        //       'look-controls': {},
+        //       'wasd-controls': {},
+        //       'position': {x: 0, y: 0, z: 0}
+        //     },
+
+        //     mappings: {
+        //       active: 'camera.active',
+        //       far: 'camera.far',
+        //       fov: 'camera.fov',
+        //       'look-controls-enabled': 'look-controls.enabled',
+        //       near: 'camera.near',
+        //       'pointer-lock-enabled': 'look-controls.pointerLockEnabled',
+        //       'wasd-controls-enabled': 'wasd-controls.enabled',
+        //       'reverse-mouse-drag': 'look-controls.reverseMouseDrag',
+        //       zoom: 'camera.zoom'
+        //     }
+        // });
     </script>
 
     <a-scene background="color: #000000" 
         shadow="autoUpdate: true; type:pcfsoft" 
-        renderer="colorManagement: true;">
+        renderer="colorManagement: true;"
+        change_pos="enter-vr">
         
         <a-assets>
             <!-- <a-asset-item id="moon" src='assets/moon.glb'></a-asset-item> -->
@@ -205,7 +221,7 @@
                     position=".008 .019 -.001"
                     rotation="0 0 0">
 
-                    <my-camera id="cam" 
+                    <a-camera id="cam" 
                         far="40000"  
                         near= "0.001" 
                         fov= "80"
@@ -230,7 +246,7 @@
                                 scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: .002 .002 .002"
                             >
                         </a-cursor>
-                    </my-camera>
+                    </a-camera>
                     
                     <a-entity id="nasa_sound" 
                             sound="src: #nasa_radio; autoplay: true; volume: 1">
