@@ -8,7 +8,7 @@ This project uses a 3D scan of the interior of the Apollo 11 command module and 
 To add some interactivity, the users can click on the radio, to play music or on the right joystick to change the orbit distance of the module.
 
 The module and the moon are at 10'000th of their real scale.
-
+![Little demo](https://github.com/Squidez/VR-project/blob/main/assets/readme/demo.gif)
 ## Installation requirements
 The website is live at https://squidez.github.io/VR-project/ or you can clone the project and excecute _index.html_.
  
